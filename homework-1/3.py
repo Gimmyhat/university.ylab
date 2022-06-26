@@ -3,7 +3,14 @@
 # возвращает количество конечных нулей в факториале (N! = 1 * 2 * 3 * ... * N) заданного числа:
 
 def zeros(n):
-    return n / 5 + zeros(n / 5) if n >= 5 else 0
+    pow_of_5 = 5
+    zero = 0
+
+    while n >= pow_of_5:
+        zero += n // pow_of_5
+        pow_of_5 *= 5
+
+    return zero
 
 
 assert zeros(0) == 0
