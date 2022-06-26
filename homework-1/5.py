@@ -3,7 +3,7 @@
 # предел (limit), после чего попробуйте сгенерировать по порядку все числа.
 # Меньшие значения предела, которые имеют все и только простые множители простых чисел primesL.
 
-from itertools import *
+from itertools import count
 from math import prod
 
 
