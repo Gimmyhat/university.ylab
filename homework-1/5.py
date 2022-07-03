@@ -3,27 +3,28 @@
 # предел (limit), после чего попробуйте сгенерировать по порядку все числа.
 # Меньшие значения предела, которые имеют все и только простые множители простых чисел primesL.
 
-# Поиск простых множителей числа n
-def primfacs(n, i=2):
-    primfac = []
-    while i * i <= n:
-        while n % i == 0:
-            primfac.append(i)
-            n = n // i
-        i += 1
-    if n > 1:
-        primfac.append(n)
-    return primfac
+from itertools import count
+from math import prod
 
 
 def count_find_num(primesL, limit):
-    # your code here
+    if prod(primesL) > limit:
+        return []
+    res = {0: [primesL]}
+    for i in count(1):
+        res[i] = res.setdefault(i, [res[i - 1][y] + [x]
+                                    for x in primesL
+                                    for y in range(len(res[i - 1]))
+                                    if prod(res[i - 1][y] + [x]) <= limit])
+        if not res[i]:
+            break
     k, mx = 0, 0
-    for i in range(limit + 1):
-        if set(primesL) == set(primfacs(i)):
-            k += 1
-            mx = i
-    return [k, mx] if k else []
+    for key, value in res.items():
+        res[key] = list(set(tuple(sorted(sub)) for sub in value))
+        k += len(res[key])
+        if res[key]:
+            mx = max(mx, max([prod(x) for x in res[key]]))
+    return [k, mx] if mx else []
 
 
 primesL = [2, 3]
@@ -45,3 +46,4 @@ assert count_find_num(primesL, limit) == [19, 960]
 primesL = [2, 3, 47]
 limit = 200
 assert count_find_num(primesL, limit) == []
+

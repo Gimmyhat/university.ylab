@@ -4,30 +4,16 @@
 #
 # (Используйте - для обозначения зачеркнутой буквы)
 
-from itertools import product
+import itertools
 
 
-def bananas(s) -> set:
+def bananas(s):
     result = set()
-    # Your code here!
-    word = 'banana'
-    l = len(s) - len(word)
-    # задаем вариации с прочерками в слове s
-    variations = (x for x in product((' ', '-'), repeat=len(s)) if x.count('-') == l)
-    for var in variations:
-        # подставляем '-' в слово s
-        str_temp = ''.join(ch2 if ch1 == ' ' else ch1 for ch1, ch2 in zip(var, s))
-        # если после манипуляций можно прочитать слово banana - заносим в result
-        if str_temp.replace('-', '') == word:
-            result.add(str_temp)
-
+    for comb in itertools.combinations(range(len(s)), len(s) - 6):
+        word = list(s)
+        for i in comb:
+            word[i] = '-'
+        candidate = ''.join(word)
+        if candidate.replace('-', '') == 'banana':
+            result.add(candidate)
     return result
-
-
-assert bananas("banann") == set()
-assert bananas("banana") == {"banana"}
-assert bananas("bbananana") == {"b-an--ana", "-banana--", "-b--anana", "b-a--nana", "-banan--a",
-                                "b-ana--na", "b---anana", "-bana--na", "-ba--nana", "b-anan--a",
-                                "-ban--ana", "b-anana--"}
-assert bananas("bananaaa") == {"banan-a-", "banana--", "banan--a"}
-assert bananas("bananana") == {"ban--ana", "ba--nana", "bana--na", "b--anana", "banana--", "banan--a"}
