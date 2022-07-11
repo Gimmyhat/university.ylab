@@ -4,7 +4,7 @@ from heroes import Superman, SuperHero, Media, ChuckNorris
 from places import Kostroma, Tokyo
 
 
-def save_the_place(hero: Union[SuperHero, Media], place: Union[Kostroma, Tokyo]):
+def save_the_place(hero: SuperHero, place: Union[Kostroma, Tokyo]):
     hero.find(place)
     hero.attack()
     if hero.can_use_ultimate_attack:
