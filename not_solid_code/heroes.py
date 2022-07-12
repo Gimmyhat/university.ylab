@@ -41,7 +41,7 @@ class Ultimate:
         print('Wzzzuuuup!')
 
 
-class SuperHero:
+class AbstractHero(ABC):
 
     def __init__(self, name, can_use_ultimate_attack=True):
         self.name = name
@@ -50,6 +50,10 @@ class SuperHero:
 
     def find(self, place):
         self.finder.get_antagonist(place)
+
+
+class SuperHero(AbstractHero):
+    pass
 
 
 class Superman(SuperHero, Media, Kick, Ultimate):
